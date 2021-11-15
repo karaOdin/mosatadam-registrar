@@ -1,5 +1,7 @@
 <?php
 use Illuminate\Support\Facades\Mail;
+use Illuminate\Http\Request;
+
 
 use App\Mail\ContactMail;
 use Illuminate\Support\Facades\Route;
@@ -21,6 +23,12 @@ Route::get('/', function () {
 
 Route::post('/sendemail',function(Request $request){
 
+    $request->validate([
+        'name' => 'required',
+        'phone' => 'required',
+        'document' => 'required'
+    ]);
+
     $data = array(
         'name' => request()->name,
         'email' => request()->email,
@@ -32,7 +40,11 @@ Route::post('/sendemail',function(Request $request){
 
     Mail::to('startup@moostadam.dz')->send(new ContactMail($data));
 
-    dd($data);
+     $notification = array(
+        'message' =>'Votre demande est envoyé avec succès' ,
+        'alert-type' =>'success'
+    );
+    return redirect()->back()->with($notification);
  
 })->name('sendemail');
 

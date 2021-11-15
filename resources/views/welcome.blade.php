@@ -25,6 +25,14 @@
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Hind+Siliguri:wght@300&display=swap" rel="stylesheet">
+
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+
+
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/toastr.js/latest/js/toastr.min.js"></script>
+
+<link rel="stylesheet" type="text/css"
+          href="https://cdnjs.cloudflare.com/ajax/libs/toastr.js/latest/toastr.min.css">
 <!--===============================================================================================-->
 <!-- Messenger Chat Plugin Code -->
     <div id="fb-root"></div>
@@ -55,6 +63,15 @@
     </script>
 </head>
 <body>
+
+
+    @if(session()->has('message'))
+        <script>
+            var type = "{{Session::get('alert-type','success')}}"
+            toastr.success("{{ Session::get('message') }}");
+        </script>
+    @endif
+
 <section class="vh-100" style="background-color: #00D100;" >
   <div class="container h-100">
     <div class="row d-flex justify-content-center align-items-center h-100">
@@ -76,6 +93,13 @@ Nous sommes convaincus que le croisement de regards interdisciplinaires est la m
                   <div class="form-group">
                     <label for="name" style="font-family:Hind Siliguri" >Name</label>
                 <input type="text" name="name" class="form-control" placeholder=" votre Nom et Prénom ici" required></div>
+                @error('name')
+                      <div class="alert alert-danger">{{ $message }}</div>
+                      <script >
+                        toastr.error("The document field is required."); 
+                      </script>
+                  @enderror
+
                 </div>
                 <div class="col-md">
                   <div class="form-group">
@@ -88,6 +112,13 @@ Nous sommes convaincus que le croisement de regards interdisciplinaires est la m
                   <div class="form-group">
                     <label for="Sujet"style="font-family:Hind Siliguri" >Téléphone</label>
                     <input type="text"/ name="phone" class="form-control" placeholder="+213 xxx xxx xxx" required>
+                    @error('phone')
+                      <div class="alert alert-danger">{{ $message }}</div>
+                      <script >
+                        toastr.error("The document field is required."); 
+                      </script>
+                  @enderror
+
                   </div>
                 </div>
               </div>
@@ -104,12 +135,18 @@ Nous sommes convaincus que le croisement de regards interdisciplinaires est la m
               </div>
               <div class="form-group">
                    <label for="message" style="font-family:Hind Siliguri" >Présentation de Projet en PDF</label>
-                   <input class="form-control form-control-lg" name="document" id="formFileLg" type="file" />
+                   <input class="form-control form-control-lg" name="document" id="formFileLg" type="file"  />
                   <div class="small text-muted mt-2" style="font-family:Hind Siliguri" >Upload your presentation  or any other relevant file. Max file size 50 MB</div>
+                  @error('document')
+                      <div class="alert alert-danger">{{ $message }}</div>
+                      <script >
+                        toastr.error("The document field is required."); 
+                      </script>
+                  @enderror
 
               </div>
               <div class="form-group">
-                  <button type="submit" class="btn btn-primary btn-lg"  style="background-color: #00D100;" >Envoyer</button>
+                  <button type="submit" id="upload" class="btn btn-primary btn-lg"  style="background-color: #00D100;" >Envoyer</button>
               <button type="reset" class="btn btn-primary btn-lg"  style="background-color: #00D100;" >Réinitialiser</button>
               </div>
             </form>
@@ -130,7 +167,23 @@ Nous sommes convaincus que le croisement de regards interdisciplinaires est la m
 
 
 
+<script src="https://cdnjs.cloudflare.com/ajax/libs/toastr.js/latest/toastr.min.js" integrity="sha512-VEd+nq25CkR676O+pLBnDW09R7VQX9Mdiij052gVCp5yVH3jGtH70Ho/UUv4mJDsEdTvqRCFZg0NKGiojGnUCw==" crossorigin="anonymous" referrerpolicy="no-referrer"></script>
 
+<script type="text/javascript">
+$(document).ready(function() {
+    $('#upload').bind("click",function() 
+    { 
+        var imgVal = $('#document').val(); 
+        if(imgVal=='') 
+        { 
+            toastr.error("empty input file"); 
+            return false; 
+        } 
+
+
+    }); 
+});
+</script> 
 
 </body>
 </html>

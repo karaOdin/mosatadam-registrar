@@ -30,7 +30,7 @@ class ContactMail extends Mailable
     public function build()
     {
         return $this->from($this->data['email'])
-                    ->subject($this->data['sujet'])
+                    ->subject($this->data['name'])
                     ->markdown('mail.contact-mail')->with('data',$this->data)
                     ->attach($this->data['document']->getRealPath(),[
                          'as' => $this->data['document']->getClientOriginalName(),
