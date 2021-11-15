@@ -31,7 +31,7 @@ class ContactMail extends Mailable
     {
         return $this->from($this->data['email'])
                     ->subject($this->data['sujet'])
-                    ->markdown('mail.contact-mail')->with('data',request()->data)
+                    ->markdown('mail.contact-mail')->with('data',$this->data)
                     ->attach($this->data['document']->getRealPath(),[
                          'as' => $this->data['document']->getClientOriginalName(),
                         'mime' => $this->data['document']->getClientMimeType(),
